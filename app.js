@@ -24,38 +24,43 @@ var output = "-output_image output.png";
 
 var openReq = {};
 
-app.post('/api/process', (req, res, nxt)=>{
+app.post('/api/process/content', (req, res, nxt)=>{
   var id =  uuid.v1();
   var dirPath = "output/" + id + "/";
   mkdir(dirPath, null, ()=>{
     var contentPath = dirPath + "_content";
-    var stylePath = dirPath + "_style";
-
-    fs.writeFileSync(contentPath, req.body.contentIm);
-    fs.writeFileSync(stylePath, req.boy.styleIm);
-    //run the neural net torch implementation
-    var spawn = child.spawn;
-    var process = spawn('th',["~/", 'neural_style.lua', numIter, "-style_image " + stylePath,
-    "-content_image" + contentPath, imageSz, backEnd, output]);
-    //keep track of the output made/sent to the client.
-    openReq[id] =  {next:1, maxAvailable: 0, pendingRes:res};
-    res.body.id = id;
-    res.statusCode(200).send();
-
-    process.stdout.on('data', ()=>{
-      openReq[id].maxAvailable++;
-      outputFrame(id);
-    })
+    fs.writeFileSync(contentPath, req.body);
   });
+  res.statusCode(200).send("Style Still Needed");
+});
+
+app.post('/api/process/style', (req, res, nxt)=>{
+  var id =  uuid.v1();
+  var dirPath = "output/" + id + "/";
+  var stylePath = dirPath + "_style";
+  fs.writeFileSync(stylePath, req.body);
+  //run the neural net torch implementation
+  var spawn = child.spawn;
+  var process = spawn('th',["~/", '../neural_style.lua', numIter, "-style_image " + stylePath,
+    "-content_image" + contentPath, imageSz, backEnd, output]);
+
+  //keep track of the output made/sent to the client.
+  openReq[id] =  {next:1, maxAvailable: 0, pendingRes:res};
+  res.body.id = id;
+  res.statusCode(200).send();
+
+  process.stdout.on('data', ()=>{
+    openReq[id].maxAvailable++;
+    outputFrame(id);
+    })
 });
 
 app.post('/api/getframe', (req, res)=>{
   var id = req.body.id;
-if(id != null && openReq[id] != null){
-  openReq[id].pendingRes = res;
-  outputFrame(id);
-}
-
+  if(id != null && openReq[id] != null){
+    openReq[id].pendingRes = res;
+    outputFrame(id);
+  }
 });
 
 function outputFrame(id){
@@ -67,6 +72,5 @@ function outputFrame(id){
     reqStatus.pendingRes.sendFile(dirPath + "output" + next + ".png");
   }
 }
-
 
 module.exports = app;

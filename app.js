@@ -22,7 +22,7 @@ var storage =   multer.diskStorage({
     var dirPath = "output/" + id + "/";
 
     //keep track of the output made/sent to the client.
-    openReq[id] =  {next:1, maxAvailable: 0, pendingRes:res};
+    openReq[id] =  {next:1, maxAvailable: 0, pendingRes:null};
     res.body.id = id;
 
     mkdir(dirPath, null, ()=>{
@@ -56,6 +56,7 @@ app.post('/api/process', (req, res, nxt)=>{
       return res.end("Error uploading files." + err);
     }
     var id = res.body.id;
+    openReq[id].pendingRes = res;
     console.log("post, id: " + id);
     //run the neural net torch implementation
     var spawn = child.spawn;

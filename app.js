@@ -18,20 +18,12 @@ var rimraf = require('rimraf');
 //configure multer file upload
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
-    var id =  uuid.v1();
-    var dirPath = "output/" + id + "/";
-
-    //keep track of the output made/sent to the client.
-    openReq[id] =  {next:1, maxAvailable: 0, pendingRes:null};
-    req.body.id = id;
-
-    mkdir(dirPath, null, ()=>{
-      callback(null, dirPath);
+    mkdir(req.dirPath, null, ()=>{
+      callback(null, req.dirPath);
     });
-
   },
   filename: function (req, file, callback) {
-    callback(null, file.originalname);
+    callback(null, file.fieldname);
   }
 });
 
@@ -51,11 +43,17 @@ var openReq = {};
 
 
 app.post('/api/process', (req, res, nxt)=>{
+  var id =  uuid.v1();
+  var dirPath = "output/" + id + "/";
+
+  //keep track of the output made/sent to the client.
+  openReq[id] =  {next:1, maxAvailable: 0, pendingRes:null};
+  req.dirPath = dirPath;
+
   upload(req,res,function(err) {
     if(err) {
       return res.end("Error uploading files." + err);
     }
-    var id = req.body.id;
     openReq[id].pendingRes = res;
     console.log("post, id: " + id);
     //run the neural net torch implementation

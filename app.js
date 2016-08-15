@@ -65,9 +65,9 @@ app.post('/api/process', (req, res, nxt)=>{
       "-content_image" + contentPath, imageSz, backEnd, output]);
     //ack and send identifier
     res.status(200).send();
-    process.stderr.on('data',(data)=>console.log(data.toString()));
+    //process.stderr.on('data',(data)=>console.log(data.toString()));
     process.stdout.on('data', (data)=>{
-      console.log(data.toString());
+      //console.log(data.toString());
       openReq[id].maxAvailable++;
       outputFrame(id);
     })
@@ -94,6 +94,7 @@ function outputFrame(id){
 
   var next = (reqStatus.next * 100) % 1000;
   next = next ? "_" + next.toString() : "";
+
   console.log('maxAvailable - ' + reqStatus.maxAvailable.toString() + " next" + next.toString());
   if(reqStatus.maxAvailable >= reqStatus.next && reqStatus.pendingRes != null){
     var p = path.join(__dirname, dirPath + "output" + next + ".png" );

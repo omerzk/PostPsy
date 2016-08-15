@@ -24,11 +24,12 @@ var storage =   multer.diskStorage({
     });
   },
   filename: function (req, file, callback) {
-    callback(null, file.fieldname + mime.lookUpExt(file.mimetype));
+    req[file.fieldname] =  file.fieldname + "." + mime.lookUpExt(file.mimetype;
+    callback(null, file.fieldname + "." + mime.lookUpExt(file.mimetype));
   }
 });
 
-var upload = multer({ storage : storage }).any();
+var upload = multer({ storage : storage }).any();//TODO: limit fields to content and style VULNERABLE
 
 app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));
@@ -46,7 +47,8 @@ var openReq = {};
 app.post('/api/process', (req, res, nxt)=>{
   var id =  uuid.v1();
   var dirPath = "output/" + id + "/";
-
+  var contentPath = dirPath + req.content;
+  var stylePath = dirPath + req.style;
   //keep track of the output made/sent to the client.
   openReq[id] =  {next:1, maxAvailable: 0, pendingRes:null};
   req.dirPath = dirPath;

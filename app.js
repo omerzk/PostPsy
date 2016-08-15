@@ -39,14 +39,14 @@ app.use(bodyParser.json({limit: '50mb'}));
 var numIter = '-num_iterations 1000';
 var imageSz = '-image_size 400';
 var backEnd = '-backend cudnn';
-var output = "-output_image output.png";
 
 var openReq = {};
 
 
 app.post('/api/process', (req, res, nxt)=>{
   var id =  uuid.v1();
-  var dirPath = "output/" + id + "/";
+  var dirPath = path.join(__dirname, "output/" + id + "/");
+  var output = "-output_image" + dirPath + "output.png";
   var contentPath = dirPath + req.content;
   var stylePath = dirPath + req.style;
   //keep track of the output made/sent to the client.

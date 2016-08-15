@@ -64,7 +64,7 @@ app.post('/api/process', (req, res, nxt)=>{
     var process = spawn('th',["~/", '../neural_style.lua', numIter, "-style_image " + stylePath,
       "-content_image" + contentPath, imageSz, backEnd, output]);
     //ack and send identifier
-    res.statusCode(200).send();
+    res.status(200).send();
 
     process.stdout.on('data', ()=>{
       openReq[id].maxAvailable++;

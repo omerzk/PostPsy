@@ -61,7 +61,7 @@ app.post('/api/process', (req, res, nxt)=>{
     console.log("post, id: " + id);
     //run the neural net torch implementation
     var spawn = child.spawn;
-    var process = spawn('th',["~/", '../neural_style.lua', numIter, "-style_image " + stylePath,
+    var process = spawn('th',['../neural_style.lua', numIter, "-style_image " + stylePath,
       "-content_image" + contentPath, imageSz, backEnd, output]);
     //ack and send identifier
     res.status(200).send();

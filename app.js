@@ -39,7 +39,7 @@ var upload = multer({ storage : storage }).array('sourceImages',2);
 
 app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));
-app.use(cookieParser());
+//app.use(cookieParser());
 
 //constants
 var numIter = '-num_iterations 1000';
@@ -53,7 +53,7 @@ var openReq = {};
 app.post('/api/process', (req, res, nxt)=>{
   upload(req,res,function(err) {
     if(err) {
-      return res.end("Error uploading files.");
+      return res.end("Error uploading files." + err);
     }
     var id = res.body.id;
     console.log("post, id: " + id);

@@ -27,7 +27,7 @@ var storage =   multer.diskStorage({
   }
 });
 
-var upload = multer({ storage : storage }).array('sourceImages',2);
+var upload = multer({ storage : storage }).any();
 
 app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));

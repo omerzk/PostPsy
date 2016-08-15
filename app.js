@@ -48,8 +48,6 @@ app.post('/api/process', (req, res, nxt)=>{
   var id =  uuid.v1();
   var dirPath = path.join(__dirname, "output/" + id + "/");
   var output = "-output_image" + dirPath + "output.png";
-  var contentPath = dirPath + req.content;
-  var stylePath = dirPath + req.style;
   //keep track of the output made/sent to the client.
   openReq[id] =  {next:1, maxAvailable: 0, pendingRes:null};
   req.dirPath = dirPath;
@@ -58,6 +56,8 @@ app.post('/api/process', (req, res, nxt)=>{
     if(err) {
       return res.end("Error uploading files." + err);
     }
+    var contentPath = dirPath + req.content;
+    var stylePath = dirPath + req.style;
     openReq[id].pendingRes = res;
     console.log("post, id: " + id);
     //run the neural net torch implementation

@@ -12,7 +12,7 @@ var multer  =   require('multer');
 var fs = require('fs');
 var rimraf = require('rimraf');
 var mime = require('node-mime');
-
+var path = require('path');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 

@@ -25,6 +25,7 @@ var storage =   multer.diskStorage({
   },
   filename: function (req, file, callback) {
     req[file.fieldname] =  file.fieldname + "." + mime.lookUpExt(file.mimetype);
+    console.log(file.fieldname);
     callback(null, file.fieldname + "." + mime.lookUpExt(file.mimetype));
   }
 });
@@ -65,9 +66,9 @@ app.post('/api/process', (req, res, nxt)=>{
       "-content_image" + contentPath, imageSz, backEnd, output]);
     //ack and send identifier
     res.status(200).send();
-    //process.stderr.on('data',(data)=>console.log(data.toString()));
+    process.stderr.on('data',(data)=>console.log(data.toString()));
     process.stdout.on('data', (data)=>{
-      //console.log(data.toString());
+      console.log(data.toString());
       openReq[id].maxAvailable++;
       outputFrame(id);
     })

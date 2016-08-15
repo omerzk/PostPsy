@@ -94,7 +94,7 @@ function outputFrame(id){
 
   var next = (reqStatus.next * 100) % 1000;
   next = next ? "_" + next.toString() : "";
-  console.log('maxAvailable - ' + reqStatus.maxAvailable.toString() + " next" + reqStatus.toString());
+  console.log('maxAvailable - ' + reqStatus.maxAvailable.toString() + " next" + next.toString());
   if(reqStatus.maxAvailable >= reqStatus.next && reqStatus.pendingRes != null){
     var p = path.join(__dirname, dirPath + "output" + next + ".png" );
     reqStatus.pendingRes.sendFile(p, {}, (err)=>{

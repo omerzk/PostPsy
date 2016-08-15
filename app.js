@@ -65,9 +65,9 @@ app.post('/api/process', (req, res, nxt)=>{
       "-content_image" + contentPath, imageSz, backEnd, output]);
     //ack and send identifier
     res.status(200).send();
-    process.stderr.on('data',(data)=>console.log(data));
+    process.stderr.on('data',(data)=>console.log(data.toString()));
     process.stdout.on('data', (data)=>{
-      console.log(data);
+      console.log(data.toString());
       openReq[id].maxAvailable++;
       outputFrame(id);
     })

@@ -11,6 +11,7 @@ var mkdir = require("mkdirp");
 var multer  =   require('multer');
 var fs = require('fs');
 var rimraf = require('rimraf');
+var mime = require('node-mime');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -23,7 +24,7 @@ var storage =   multer.diskStorage({
     });
   },
   filename: function (req, file, callback) {
-    callback(null, file.fieldname);
+    callback(null, file.fieldname + mime.extension(file.mimetype);
   }
 });
 

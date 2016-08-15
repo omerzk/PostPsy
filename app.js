@@ -36,7 +36,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 //app.use(cookieParser());
 
 //constants
-var numIter = '-num_iterations 1000';
+//var numIter = '-num_iterations 1000';//it's the default
 var imageSz = '-image_size 400';
 var backEnd = '-backend cudnn';
 
@@ -61,7 +61,7 @@ app.post('/api/process', (req, res, nxt)=>{
     console.log("post, id: " + id);
     //run the neural net torch implementation
     var spawn = child.spawn;
-    var process = spawn('th',['../neural_style.lua', numIter, "-style_image " + stylePath,
+    var process = spawn('th',['../neural_style.lua', "-style_image " + stylePath,
       "-content_image" + contentPath, imageSz, backEnd, output]);
     //ack and send identifier
     res.status(200).send();

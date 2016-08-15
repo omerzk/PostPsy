@@ -24,7 +24,7 @@ var storage =   multer.diskStorage({
     });
   },
   filename: function (req, file, callback) {
-    callback(null, file.fieldname + mime.extension(file.mimetype));
+    callback(null, file.fieldname + mime.lookUpExt(file.mimetype));
   }
 });
 

@@ -75,7 +75,7 @@ app.post('/api/process', (req, res, nxt)=>{
     res.status(200).send();
     process.stderr.on('data',(data)=>console.log(data.toString()));
     process.stdout.on('data', (data)=>{
-      console.log(data.toString());
+      console.log("data " + data.toString());
       openReq[id].maxAvailable++;
       outputFrame(id);
     })

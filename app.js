@@ -13,10 +13,10 @@ var fs = require('fs');
 var rimraf = require('rimraf');
 var mime = require('node-mime');
 var path = require('path');
-var p = require('process');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-p.chdir('/home/ubuntu/cudnn-6.5-linux-x64-v2-rc2/neural-style');
+//change current working directory to satisfy torch dependencies;
+require('process').chdir('/home/ubuntu/cudnn-6.5-linux-x64-v2-rc2/neural-style');
 //configure multer file upload
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
@@ -59,7 +59,6 @@ app.post('/api/process', (req, res, nxt)=>{
     }
     var contentPath = dirPath + req.content;
     var stylePath = dirPath + req.style;
-    openReq[id].pendingRes = res;
     console.log("post, id: " + id);
     //run the neural net torch implementation
     var spawn = child.spawn;
@@ -73,9 +72,9 @@ app.post('/api/process', (req, res, nxt)=>{
 
     //ack and send identifier
     res.status(200).send();
-    process.stderr.on('data',(data)=>console.log(data.toString()));
+    process.stderr.on('data',(data)=>console.log("error------------------------" + data.toString()));
     process.stdout.on('data', (data)=>{
-      console.log("data " + data.toString());
+      console.log("data--------------------------- " + data.toString());
       openReq[id].maxAvailable++;
       outputFrame(id);
     })

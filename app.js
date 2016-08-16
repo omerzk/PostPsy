@@ -50,7 +50,7 @@ app.post('/api/process', (req, res, nxt)=>{
   var dirPath = path.join(__dirname, "output/" + id + "/");
   var output = dirPath + "output.png";
   //keep track of the output made/sent to the client.
-  openReq[id] =  {next:1, maxAvailable: 0, pendingRes:null};
+  openReq[id] =  {next:1, maxAvailable: -9, pendingRes:null};//-9 is to compensate for set up prints of the lua file
   req.dirPath = dirPath;
 
   upload(req,res,function(err) {

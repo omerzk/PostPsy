@@ -48,7 +48,7 @@ var openReq = {};
 app.post('/api/process', (req, res, nxt)=>{
   var id =  uuid.v1();
   var dirPath = path.join(__dirname, "output/" + id + "/");
-  var output = "-output_image" + dirPath + "output.png";
+  var output = "-output_image " + dirPath + "output.png";
   //keep track of the output made/sent to the client.
   openReq[id] =  {next:1, maxAvailable: 0, pendingRes:null};
   req.dirPath = dirPath;
@@ -64,7 +64,7 @@ app.post('/api/process', (req, res, nxt)=>{
     //run the neural net torch implementation
     var spawn = child.spawn;
     var process = spawn('th',['neural_style.lua', "-style_image " + stylePath,
-      "-content_image" + contentPath, imageSz, backEnd, output]);
+      "-content_image " + contentPath, imageSz, backEnd, output]);
     //ack and send identifier
     res.status(200).send();
     process.stderr.on('data',(data)=>console.log(data.toString()));

@@ -14,9 +14,10 @@
     "mkdirp": "latest",
     "morgan": "~1.7.0",
     "multer": "latest",
+    "node-mime": "latest",
     "node-uuid": "latest",
+    "process": "^0.11.8",
     "rimraf": "^2.5.4",
-    "serve-favicon": "~2.3.0",
-    "node-mime": "latest"
+    "serve-favicon": "~2.3.0"
   }
 }

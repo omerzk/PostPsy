@@ -13,9 +13,10 @@ var fs = require('fs');
 var rimraf = require('rimraf');
 var mime = require('node-mime');
 var path = require('path');
+var p = require('process');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-
+p.chdir('/home/ubuntu/cudnn-6.5-linux-x64-v2-rc2/neural-style');
 //configure multer file upload
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
@@ -62,7 +63,7 @@ app.post('/api/process', (req, res, nxt)=>{
     console.log("post, id: " + id);
     //run the neural net torch implementation
     var spawn = child.spawn;
-    var process = spawn('th',['../neural_style.lua', "-style_image " + stylePath,
+    var process = spawn('th',['neural_style.lua', "-style_image " + stylePath,
       "-content_image" + contentPath, imageSz, backEnd, output]);
     //ack and send identifier
     res.status(200).send();

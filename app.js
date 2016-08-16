@@ -50,7 +50,7 @@ app.post('/api/process', (req, res, nxt)=>{
   var dirPath = path.join(__dirname, "output/" + id + "/");
   var output = dirPath + "output.png";
   //keep track of the output made/sent to the client.
-  openReq[id] =  {next:1, maxAvailable: -9, pendingRes:null};//-9 is to compensate for set up prints of the lua file
+  openReq[id] =  {next:0, maxAvailable: -9, pendingRes:null};//-9 is to compensate for set up prints of the lua file
   req.dirPath = dirPath;
 
   upload(req,res,function(err) {
@@ -104,7 +104,7 @@ function outputFrame(id){
   next = next ? "_" + next.toString() : "";
 
   console.log('maxAvailable - ' + reqStatus.maxAvailable.toString() + " next" + next.toString());
-  if(reqStatus.maxAvailable >= reqStatus.next && reqStatus.pendingRes != null){
+  if(reqStatus.next > 0 && reqStatus.maxAvailable >= reqStatus.next && reqStatus.pendingRes != null){
     var p = path.join(__dirname, dirPath + "output" + next + ".png" );
     reqStatus.pendingRes.sendFile(p, {}, (err)=>{
       if(err){

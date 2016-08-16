@@ -68,7 +68,8 @@ app.post('/api/process', (req, res, nxt)=>{
       '-content_image', contentPath,
       '-image_size', imageSz,
       '-backend', backEnd,
-      '-output_image', output]);
+      '-output_image', output,
+      '-print_iter', '100']);
 
     //ack and send identifier
     res.status(200).send();

@@ -76,6 +76,7 @@ app.post('/api/process', (req, res)=>{
 app.post('/api/presets', (req, res, nxt)=>{
   var id = uuid.v1();
   var dirPath = path.join(__dirname, "output/" + id + "/");
+  req.dirPath = dirPath;
   var outputPath = dirPath + "output.png";
   upload(req,res,function(err) {
     if(err) {

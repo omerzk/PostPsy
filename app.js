@@ -56,7 +56,7 @@ var torchArgs = ['th', 'neural_style.lua',
 app.post('/api/process', (req, res)=>{
   var id =  uuid.v1();
   var dirPath = path.join(__dirname, "output/" + id + "/");
-  var output = dirPath + "output.png";
+  var outputPath = dirPath + "output.png";
   req.dirPath = dirPath;
 
   upload(req,res,function(err) {
@@ -68,7 +68,7 @@ app.post('/api/process', (req, res)=>{
     args[7]= dirPath + req.style;//TODO change both to vars.
     console.log("post, torch: " + id);
     //run the neural net torch implementation
-    exec(torchArgs.join(' '),{cwd:torchImpPath} , () => outputFrame(res, output));
+    exec(torchArgs.join(' '),{cwd:torchImpPath} , () => outputFrame(res, outputPath));
   }
   );
 });
@@ -76,15 +76,16 @@ app.post('/api/process', (req, res)=>{
 app.post('/api/presets', (req, res, nxt)=>{
   var id = uuid.v1();
   var dirPath = path.join(__dirname, "output/" + id + "/");
-  req.dirPath =  path.join(__dirname, "output/" + id + "/");
+  var outputPath = dirPath + "output.png";
   upload(req,res,function(err) {
     if(err) {
       return res.end("Error uploading files." + err);
     }
     var contentPath = dirPath + req.content;
-    var modelPath = chainerPath + chainerModels[req.model];
-    exec('python',[chainerPath + 'generate.py', contentPath, '-m', modelPath].join(' '),
-        {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(id));
+    var modelPath = chainerPath + chainerModels[parseInt(req.model)];
+    var  outputPath =
+    exec('python',[chainerPath + 'generate.py', contentPath, '-m ' + modelPath, '-o ' + outputPath].join(' '),
+        {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
   });
 });
 

@@ -49,7 +49,7 @@ var torchArgs = ['th', 'neural_style.lua',
   '-content_image', null,
   '-image_size', imageSz,
   '-backend', backEnd,
-  '-output_image', output,
+  '-output_image', null,
   '-print_iter', '100'];
 
 

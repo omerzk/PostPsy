@@ -92,7 +92,7 @@ app.post('/api/presets', (req, res)=> {
       return res.end("Error uploading files." + err);
     }
     var contentPath = dirPath + req.content;
-    console.log("Model:------------------  ",req.content);
+    console.log("Model:------------------  ",req);
     var modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
     //exec('python',[chainerPath + 'generate.py', contentPath, '-m ' + modelPath, '-o ' + outputPath].join(' '),
     //    {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));

@@ -24,18 +24,20 @@ var path = require('path');
 //configure multer file upload
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
+    console.log("dest!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     mkdir(req.dirPath, null, ()=>{
       callback(null, req.dirPath);
     });
   },
   filename: function (req, file, callback) {
+    console.log("filename!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     req[file.fieldname] =  file.fieldname + "." + mime.lookUpExt(file.mimetype);
     console.log(file.fieldname);
     callback(null, file.fieldname + "." + mime.lookUpExt(file.mimetype));
   }
 });
 
-var uploadFull = multer({storage : storage}).fields({name:"content" , maxCount:1}, {name:"style" , maxCount:1});
+var uploadFull = multer({storage : storage}).fields([{name:"content" , maxCount:1}, {name:"style" , maxCount:1}]);
 var uploadPartial = multer({storage : storage}).single("content");
 
 app.use(logger('dev'));

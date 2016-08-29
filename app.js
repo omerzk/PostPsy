@@ -86,7 +86,7 @@ app.post('/api/presets', (req, res, nxt)=>{
   req.dirPath = dirPath;
   var outputPath = dirPath + "output.png";
   upload(req,res,function(err) {
-    if(err) {
+    if (err) {
       return res.end("Error uploading files." + err);
     }
     var contentPath = dirPath + req.content;
@@ -94,8 +94,8 @@ app.post('/api/presets', (req, res, nxt)=>{
     //exec('python',[chainerPath + 'generate.py', contentPath, '-m ' + modelPath, '-o ' + outputPath].join(' '),
     //    {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
 
-    let args = [chainerPath + 'generate.py', contentPath, '-m',  modelPath, '-o', outputPath];
-    var process  = child.spawn('python', args, {cwd:'/home/ubuntu/venv/bin'});
+    let args = [chainerPath + 'generate.py', contentPath, '-m', modelPath, '-o', outputPath];
+    var process = child.spawn('python', args, {cwd: '/home/ubuntu/venv/bin'});
 
     process.stdout.on('data', (data) => {
       console.log(`stdout: ${data}`);
@@ -107,7 +107,8 @@ app.post('/api/presets', (req, res, nxt)=>{
 
     process.on('close', (code) => {
       console.log(`child process exited with code ${code}`);
-  });
+    });
+  }
 });
 
 function outputFrame(res, path){

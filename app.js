@@ -35,7 +35,8 @@ var storage =   multer.diskStorage({
   }
 });
 
-var upload = multer({ storage : storage }).any();//TODO: limit fields to content and style VULNERABLE
+var uploadFull = multer({storage : storage}).fields({name:"content" , maxCount:1}, {name:"style" , maxCount:1});
+var uploadPartial = multer({storage : storage}).single("content");
 
 app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));
@@ -67,7 +68,7 @@ app.post('/api/process', (req, res)=>{
   var outputPath = dirPath + "output.png";
   req.dirPath = dirPath;
 
-  upload(req,res,function(err) {
+  uploadFull(req,res,function(err) {
     if(err) {
       return res.end("Error uploading files." + err);
     }
@@ -86,7 +87,7 @@ app.post('/api/presets', (req, res)=> {
   var dirPath = path.join(__dirname, "output/" + id + "/");
   req.dirPath = dirPath;
   var outputPath = dirPath + "output.png";
-  upload(req, res, function (err) {
+  uploadPartial(req, res, function (err) {
     if (err) {
       return res.end("Error uploading files." + err);
     }

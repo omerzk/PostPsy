@@ -95,7 +95,7 @@ app.post('/api/presets', (req, res)=> {
     //    {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
 
     let args = [chainerPath + 'generate.py', contentPath, '-m', modelPath, '-o', outputPath];
-    var process = child.spawn('python', args, {cwd: '/home/ubuntu/venv/bin'});
+    var process = child.spawn('/home/ubuntu/venv/bin/python', args);
 
     process.stdout.on('data', (data) => {
       console.log(`stdout: ${data}`);

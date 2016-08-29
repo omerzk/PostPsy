@@ -5,6 +5,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var app = express();
 var uuid = require('node-uuid');
+var child = require("child_process");
 var exec = require("child_process").exec;
 var mkdir = require("mkdirp");
 var multer  =   require('multer');
@@ -13,6 +14,12 @@ var mime = require('node-mime');
 var path = require('path');
 
 //change current working directory to satisfy torch dependencies;
+//pr.stdout.on('data', (data)=>{
+//  console.log(data);
+//});
+//pr.stderr.on('data', (data)=>{
+//  console.log(data);
+//});
 
 //configure multer file upload
 var storage =   multer.diskStorage({
@@ -84,16 +91,29 @@ app.post('/api/presets', (req, res, nxt)=>{
     }
     var contentPath = dirPath + req.content;
     var modelPath = chainerPath + chainerModels[parseInt(req.model)];
-    var  outputPath =
-    exec('python',[chainerPath + 'generate.py', contentPath, '-m ' + modelPath, '-o ' + outputPath].join(' '),
-        {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
+    //exec('python',[chainerPath + 'generate.py', contentPath, '-m ' + modelPath, '-o ' + outputPath].join(' '),
+    //    {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
+
+    let args = [chainerPath + 'generate.py', contentPath, '-m',  modelPath, '-o', outputPath];
+    var process  = child.spawn('python', args, {cwd:'/home/ubuntu/venv/bin'});
+
+    process.stdout.on('data', (data) => {
+      console.log(`stdout: ${data}`);
+    });
+
+    process.stderr.on('data', (data) => {
+      console.log(`stderr: ${data}`);
+    });
+
+    process.on('close', (code) => {
+      console.log(`child process exited with code ${code}`);
   });
 });
 
 function outputFrame(res, path){
-    res.sendFile(p, {}, (err)=>{
+    res.sendFile(path, {}, (err)=>{
       if(err){
-        return logErr('SendFile', err);
+        logErr('SendFile', err);
       }
       //remove file that was already sent
       fs.unlink(path, (err) => logErr('unlink', err));

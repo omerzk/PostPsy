@@ -80,12 +80,12 @@ app.post('/api/process', (req, res)=>{
   );
 });
 
-app.post('/api/presets', (req, res, nxt)=>{
+app.post('/api/presets', (req, res)=> {
   var id = uuid.v1();
   var dirPath = path.join(__dirname, "output/" + id + "/");
   req.dirPath = dirPath;
   var outputPath = dirPath + "output.png";
-  upload(req,res,function(err) {
+  upload(req, res, function (err) {
     if (err) {
       return res.end("Error uploading files." + err);
     }
@@ -108,7 +108,7 @@ app.post('/api/presets', (req, res, nxt)=>{
     process.on('close', (code) => {
       console.log(`child process exited with code ${code}`);
     });
-  }
+  });
 });
 
 function outputFrame(res, path){

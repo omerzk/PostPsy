@@ -41,8 +41,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));
 
 //constants
-var torchImpPath = '/home/ubuntu/cudnn-6.5-linux-x64-v2-rc2/neural-style/'
+var torchImpPath = '/home/ubuntu/cudnn-6.5-linux-x64-v2-rc2/neural-style/';
 var chainerPath = '/home/ubuntu/venv/chainer-fast-neuralstyle/';
+var BaseModelPath = '/home/ubuntu/venv/chainer-fast-neuralstyle-models/models/';
 var chainerModels = ['cubist.model', 'edtaonisl.model', 'hokusai.model',
   'hundertwasser.model', 'kandinsky.model', 'starrynight.model'];//add path in remote instance
 
@@ -91,7 +92,7 @@ app.post('/api/presets', (req, res)=> {
     }
     var contentPath = dirPath + req.content;
     console.log("Model:------------------  ",req.body.model);
-    var modelPath = chainerPath + chainerModels[parseInt(req.body.model)];
+    var modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
     //exec('python',[chainerPath + 'generate.py', contentPath, '-m ' + modelPath, '-o ' + outputPath].join(' '),
     //    {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
 

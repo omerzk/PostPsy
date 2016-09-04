@@ -106,12 +106,13 @@ app.post('/api/presets', (req, res)=> {
     if (err) {
       return res.end("Error uploading files." + err);
     }
-    var contentPath = dirPath + req.content;
+    let contentPath = dirPath + req.content;
     console.log("Model:------------------  ",req);
+    let modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
     let args = [chainerPath + 'generate.py', contentPath, '-m', modelPath, '-o', outputPath];
 
-    var modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
-    var proc = exec('python', args.join(' '),
+
+    let proc = exec('python', args.join(' '),
         {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
     proc.stdout.setEncoding('utf8');
     proc.stderr.setEncoding('utf8');

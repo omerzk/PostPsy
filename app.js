@@ -106,6 +106,7 @@ app.post('/api/presets', (req, res)=> {
     if (err) {
       return res.end("Error uploading files." + err);
     }
+    console.log("FILE", req.file);
     let contentPath = dirPath + req.content;
     console.log("Model:------------------  ",chainerModels[parseInt(req.body.model)], req.content);
     let modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];

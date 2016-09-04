@@ -126,6 +126,7 @@ function outputFrame(res, path){
     res.sendFile(path, {}, (err)=>{
       if(err){
         logErr('SendFile', err);
+        console.log(res)
       }
       //remove file that was already sent
       //fs.unlink(path, (err) => logErr('unlink', err));

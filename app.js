@@ -58,6 +58,7 @@ var torchArgs = ['th', 'neural_style.lua',
   '-num_iterations' , numIterations,
   '-style_image', null,
   '-content_image', null,
+  '-output_image', null,
   '-image_size', imageSz,
   '-backend', backEnd,
   '-print_iter', '100'];
@@ -76,6 +77,7 @@ app.post('/api/process', (req, res)=>{
     var args = torchArgs;
     args[5]= dirPath + req.style;
     args[7] = dirPath + req.content;//TODO change both to vars.
+    args[9] = outputPath;
     console.log("post, torch: " + id);
     //run the neural net torch implementation
     var proc = exec(torchArgs.join(' '),{cwd:torchImpPath} , (error, stdout, stderr) =>

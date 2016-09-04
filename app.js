@@ -78,7 +78,7 @@ app.post('/api/process', (req, res)=>{
     args[7] = dirPath + req.content;//TODO change both to vars.
     console.log("post, torch: " + id);
     //run the neural net torch implementation
-    exec(torchArgs.join(' '),{cwd:torchImpPath} , (error, stdout, stderr) =>
+    var proc = exec(torchArgs.join(' '),{cwd:torchImpPath} , (error, stdout, stderr) =>
     {
       if (error) {
         console.error(`exec error: ${error}`);
@@ -86,7 +86,10 @@ app.post('/api/process', (req, res)=>{
       }
       console.log(`stdout: ${stdout}`);
       console.log(`stderr: ${stderr}`);
-      outputFrame(res, outputPath)});
+      outputFrame(res, outputPath)
+    });
+    proc.stdout.on('data',(data)=>{console.log(data)} );
+    proc.stderr.on('data',(data)=>{console.log(data)} );
   }
   );
 });

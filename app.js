@@ -88,6 +88,8 @@ app.post('/api/process', (req, res)=>{
       console.log(`stderr: ${stderr}`);
       outputFrame(res, outputPath)
     });
+    proc.stdout.setEncoding('utf8');
+    proc.stderr.setEncoding('utf8');
     proc.stdout.on('data',(data)=>{console.log(data)} );
     proc.stderr.on('data',(data)=>{console.log(data)} );
   }

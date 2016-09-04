@@ -79,7 +79,7 @@ app.post('/api/process', (req, res)=>{
     args[7]= dirPath + req.style;//TODO change both to vars.
     console.log("post, torch: " + id);
     //run the neural net torch implementation
-    exec(torchArgs.join(' '),{cwd:torchImpPath} , () => outputFrame(res, outputPath));
+    exec(torchArgs.join(' '),{cwd:torchImpPath} , () => {outputFrame(res, outputPath)});
   }
   );
 });

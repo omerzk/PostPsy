@@ -31,9 +31,12 @@ var storage =   multer.diskStorage({
   },
   filename: function (req, file, callback) {
     console.log("filename!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    console.log("------------------------------------------------------------------------------------------")
+    console.log(req);
+    console.log("------------------------------------------------------------------------------------------")
     req[file.fieldname] =  file.fieldname + "." + mime.lookUpExt(file.mimetype);
     console.log(file.fieldname);
-    callback(null, file.fieldname + "." + mime.lookUpExt(file.mimetype));
+    callback(null, req[file.fieldname]);
   }
 });
 

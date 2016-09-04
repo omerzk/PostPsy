@@ -31,9 +31,6 @@ var storage =   multer.diskStorage({
   },
   filename: function (req, file, callback) {
     console.log("filename!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    console.log("------------------------------------------------------------------------------------------")
-    console.log(req);
-    console.log("------------------------------------------------------------------------------------------")
     req[file.fieldname] =  file.fieldname + "." + mime.lookUpExt(file.mimetype);
     console.log(file.fieldname);
     callback(null, req[file.fieldname]);
@@ -83,6 +80,10 @@ app.post('/api/process', (req, res)=>{
     //run the neural net torch implementation
     exec(torchArgs.join(' '),{cwd:torchImpPath} , (error, stdout, stderr) =>
     {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
       console.log(`stdout: ${stdout}`);
       console.log(`stderr: ${stderr}`);
       outputFrame(res, outputPath)});

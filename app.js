@@ -107,9 +107,8 @@ app.post('/api/presets', (req, res)=> {
       return res.end("Error uploading files." + err);
     }
     let contentPath = dirPath + req.content;
-    console.log("Model:------------------  ");
+    console.log("Model:------------------  ",chainerModels[parseInt(req.body.model)], req.content);
     let modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
-    console.log(req.body.model)
     let args = [chainerPath + 'generate.py', contentPath, '-m', modelPath, '-o', outputPath];
     var process = child.spawn('/home/ubuntu/venv/bin/python', args);
 

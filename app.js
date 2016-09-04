@@ -52,7 +52,7 @@ var chainerModels = ['cubist.model', 'edtaonisl.model', 'hokusai.model',
 
 var imageSz = '400';
 var backEnd = 'cudnn';
-var numIterations = '1000';
+var numIterations = '400';
 
 var torchArgs = ['th', 'neural_style.lua',
   '-num_iterations' , numIterations,
@@ -61,7 +61,8 @@ var torchArgs = ['th', 'neural_style.lua',
   '-output_image', null,
   '-image_size', imageSz,
   '-backend', backEnd,
-  '-print_iter', '100'];
+  '-print_iter', '100',
+  '-save_iter', '0'];
 
 
 app.post('/api/process', (req, res)=>{
@@ -86,8 +87,6 @@ app.post('/api/process', (req, res)=>{
         console.error(`exec error: ${error}`);
         return;
       }
-      console.log(`stdout: ${stdout}`);
-      console.log(`stderr: ${stderr}`);
       outputFrame(res, outputPath)
     });
     proc.stdout.setEncoding('utf8');
@@ -109,24 +108,16 @@ app.post('/api/presets', (req, res)=> {
     }
     var contentPath = dirPath + req.content;
     console.log("Model:------------------  ",req);
-    var modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
-    //exec('python',[chainerPath + 'generate.py', contentPath, '-m ' + modelPath, '-o ' + outputPath].join(' '),
-    //    {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
-
     let args = [chainerPath + 'generate.py', contentPath, '-m', modelPath, '-o', outputPath];
-    var process = child.spawn('/home/ubuntu/venv/bin/python', args);
 
-    process.stdout.on('data', (data) => {
-      console.log(`stdout: ${data}`);
-    });
+    var modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
+    var proc = exec('python', args.join(' '),
+        {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
+    proc.stdout.setEncoding('utf8');
+    proc.stderr.setEncoding('utf8');
+    proc.stdout.on('data',(data)=>{console.log(data)} );
+    proc.stderr.on('data',(data)=>{console.log(data)} );
 
-    process.stderr.on('data', (data) => {
-      console.log(`stderr: ${data}`);
-    });
-
-    process.on('close', (code) => {
-      console.log(`child process exited with code ${code}`);
-    });
   });
 });
 
@@ -137,7 +128,7 @@ function outputFrame(res, path){
         logErr('SendFile', err);
       }
       //remove file that was already sent
-      fs.unlink(path, (err) => logErr('unlink', err));
+      //fs.unlink(path, (err) => logErr('unlink', err));
     });
 }
 

@@ -37,7 +37,7 @@ var storage =   multer.diskStorage({
   }
 });
 
-var uploadFull = multer({storage : storage}).fields([{name:"content" , maxCount:1}, {name:"style" , maxCount:1}]);
+var uploadFull = multer({storage : storage}).any();
 var uploadPartial = multer({storage : storage}).single("content");
 
 app.use(logger('dev'));

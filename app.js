@@ -60,14 +60,13 @@ var torchArgs = ['th', 'neural_style.lua',
   '-content_image', null,
   '-image_size', imageSz,
   '-backend', backEnd,
-  '-output_image', null,
   '-print_iter', '100'];
 
 
 app.post('/api/process', (req, res)=>{
   var id =  uuid.v1();
   var dirPath = path.join(__dirname, "output/" + id + "/");
-  var outputPath = dirPath + "output.png";
+  var outputPath = dirPath + "out.png";
   req.dirPath = dirPath;
 
   uploadFull(req,res,function(err) {
@@ -75,8 +74,8 @@ app.post('/api/process', (req, res)=>{
       return res.end("Error uploading files." + err);
     }
     var args = torchArgs;
-    args[5] = dirPath + req.content;
-    args[7]= dirPath + req.style;//TODO change both to vars.
+    args[5]= dirPath + req.style;
+    args[7] = dirPath + req.content;//TODO change both to vars.
     console.log("post, torch: " + id);
     //run the neural net torch implementation
     exec(torchArgs.join(' '),{cwd:torchImpPath} , () => {outputFrame(res, outputPath)});

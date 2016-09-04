@@ -107,7 +107,7 @@ app.post('/api/presets', (req, res)=> {
       return res.end("Error uploading files." + err);
     }
     let contentPath = dirPath + req.content;
-    console.log("Model:------------------  ",req);
+    console.log("Model:------------------  ");
     let modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
     let args = [chainerPath + 'generate.py', contentPath, '-m', modelPath, '-o', outputPath];
 

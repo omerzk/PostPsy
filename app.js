@@ -111,25 +111,26 @@ app.post('/api/presets', (req, res)=> {
     console.log("Model:------------------  ",chainerModels[parseInt(req.body.model)], req.content);
     let modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
     let args = [chainerPath + 'generate.py', contentPath, '-m', modelPath, '-o', outputPath];
-    //var process = child.spawn('/home/ubuntu/venv/bin/python', args);
-    //
-    //process.stdout.on('data', (data) => {
-    //  console.log(`stdout: ${data}`);
-    //});
-    //
-    //process.stderr.on('data', (data) => {
-    //  console.log(`stderr: ${data}`);
-    //});
-    //
-    //process.on('close', (code) => {
-    //  console.log(`child process exited with code ${code}`);
-    //});
-    let proc = exec('python', args.join(' '),
-        {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
-    proc.stdout.setEncoding('utf8');
-    proc.stderr.setEncoding('utf8');
-    proc.stdout.on('data',(data)=>{console.log(data)} );
-    proc.stderr.on('data',(data)=>{console.log(data)} );
+    var process = child.spawn('/home/ubuntu/venv/bin/python', args);
+
+    process.stdout.on('data', (data) => {
+      console.log(`stdout: ${data}`);
+    });
+
+    process.stderr.on('data', (data) => {
+      console.log(`stderr: ${data}`);
+    });
+
+    process.on('close', (code) => {
+      console.log(`child process exited with code ${code}`);
+      outputFrame(res, outputPath)
+    });
+    //let proc = exec('python', args.join(' '),
+    //    {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
+    //proc.stdout.setEncoding('utf8');
+    //proc.stderr.setEncoding('utf8');
+    //proc.stdout.on('data',(data)=>{console.log(data)} );
+    //proc.stderr.on('data',(data)=>{console.log(data)} );
   });
 });
 

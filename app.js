@@ -52,7 +52,7 @@ var chainerModels = ['cubist.model', 'edtaonisl.model', 'hokusai.model',
 
 var imageSz = '400';
 var backEnd = 'cudnn';
-var numIterations = '400';
+var numIterations = '1000';
 
 var torchArgs = ['th', 'neural_style.lua',
   '-num_iterations' , numIterations,
@@ -61,7 +61,7 @@ var torchArgs = ['th', 'neural_style.lua',
   '-output_image', null,
   '-image_size', imageSz,
   '-backend', backEnd,
-  '-print_iter', '1000',
+  '-print_iter', '100',
   '-save_iter', '0'];
 
 

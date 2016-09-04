@@ -117,6 +117,7 @@ app.post('/api/presets', (req, res)=> {
 });
 
 function outputFrame(res, path){
+  console.log('output');
     res.sendFile(path, {}, (err)=>{
       if(err){
         logErr('SendFile', err);

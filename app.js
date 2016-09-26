@@ -47,7 +47,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 var torchImpPath = '/home/ubuntu/cudnn-6.5-linux-x64-v2-rc2/neural-style/';
 var chainerPath = '/home/ubuntu/venv/chainer-fast-neuralstyle/';
 var BaseModelPath = '/home/ubuntu/venv/chainer-fast-neuralstyle-models/models/';
-var chainerModels = ['stary.model', 'fur_0.model', 'candy_512_2_49000.model',
+var chainerModels = ['starry.model', 'fur_0.model', 'candy_512_2_49000.model',
   'kanagawa.model', 'edtaonisl.model', 'kandinsky_e2_full512.model', 'hundertwasser.model', 'cubist.model'];//add path in remote instance
 
 var imageSz = '400';

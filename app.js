@@ -111,7 +111,7 @@ app.post('/api/presets', (req, res)=> {
     console.log("FILE", req);
     let contentPath = dirPath + req.content;
     console.log("Model:------------------  ",chainerModels[parseInt(req.body.model) - 1], req.content);
-    let modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
+    let modelPath = BaseModelPath + chainerModels[parseInt(req.body.model) - 1];
     let args = [chainerPath + 'generate.py', contentPath, '-m', modelPath, '-o', outputPath];
     var process = child.spawn('/home/ubuntu/venv/bin/python', args);
 

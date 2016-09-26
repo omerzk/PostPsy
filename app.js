@@ -66,6 +66,7 @@ var torchArgs = ['th', 'neural_style.lua',
 
 
 app.post('/api/process', (req, res)=>{
+  console.log('***************process******************');
   var id =  uuid.v1();
   var dirPath = path.join(__dirname, "output/" + id + "/");
   var outputPath = dirPath + "out.png";
@@ -98,6 +99,7 @@ app.post('/api/process', (req, res)=>{
 });
 
 app.post('/api/presets', (req, res)=> {
+  console.log('***************presets******************');
   var id = uuid.v1();
   var dirPath = path.join(__dirname, "output/" + id + "/");
   req.dirPath = dirPath;

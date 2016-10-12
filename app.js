@@ -114,7 +114,7 @@ app.post('/api/presets', (req, res)=> {
     console.log("Model:------------------  ",chainerModels[parseInt(req.body.model)], req.content);
     let modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
     let args = [chainerPath + 'generate.py', contentPath, '-m', modelPath, '-o', outputPath];
-    if(req.content.endsWith(gif)){
+    if(req.content.endsWith('gif')){
        args = [gifProcessingPath + 'gifNeural.py', contentPath, modelPath , outputPath];
     }
 

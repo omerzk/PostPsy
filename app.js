@@ -49,7 +49,7 @@ var chainerPath = '/home/ubuntu/venv/chainer-fast-neuralstyle/';
 var BaseModelPath = '/home/ubuntu/venv/chainer-fast-neuralstyle-models/models/';
 var chainerModels = ['starry.model', 'fur_0.model', 'candy_512_2_49000.model',
   'kanagawa.model', 'edtaonisl.model', 'kandinsky_e2_full512.model', 'hundertwasser.model', 'cubist.model'];//add path in remote instance
-var gifProcessingPath = chainerPath + "gifProcessing/";
+var gifProcessingPath = "./gifProcessing/";
 
 var imageSz = '400';
 var backEnd = 'cudnn';

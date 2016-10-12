@@ -53,7 +53,7 @@ var gifProcessingPath = "./gifProcessing/";
 
 var imageSz = '400';
 var backEnd = 'cudnn';
-var numIterations = '1000';
+var numIterations = '500';
 
 var torchArgs = ['th', 'neural_style.lua',
   '-num_iterations' , numIterations,

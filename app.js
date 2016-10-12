@@ -49,6 +49,7 @@ var chainerPath = '/home/ubuntu/venv/chainer-fast-neuralstyle/';
 var BaseModelPath = '/home/ubuntu/venv/chainer-fast-neuralstyle-models/models/';
 var chainerModels = ['starry.model', 'fur_0.model', 'candy_512_2_49000.model',
   'kanagawa.model', 'edtaonisl.model', 'kandinsky_e2_full512.model', 'hundertwasser.model', 'cubist.model'];//add path in remote instance
+var gifProcessingPath = chainerPath + "gifProcessing/";
 
 var imageSz = '400';
 var backEnd = 'cudnn';
@@ -113,6 +114,10 @@ app.post('/api/presets', (req, res)=> {
     console.log("Model:------------------  ",chainerModels[parseInt(req.body.model)], req.content);
     let modelPath = BaseModelPath + chainerModels[parseInt(req.body.model)];
     let args = [chainerPath + 'generate.py', contentPath, '-m', modelPath, '-o', outputPath];
+    if(req.content.endsWith(gif)){
+       args = [gifProcessingPath + 'gifNeural.py', contentPath, modelPath , outputPath];
+    }
+
     var process = child.spawn('/home/ubuntu/venv/bin/python', args);
 
     process.stdout.on('data', (data) => {
@@ -136,6 +141,7 @@ app.post('/api/presets', (req, res)=> {
   });
 });
 
+
 function outputFrame(res, path){
   console.log('output');
     res.sendFile(path, {}, (err)=>{
@@ -145,7 +151,7 @@ function outputFrame(res, path){
       }
       console.log("File sent!!")
       //remove file that was already sent
-      //fs.unlink(path, (err) => logErr('unlink', err));
+      fs.unlink(path, (err) => logErr('unlink', err));//TODO:test
     });
 }
 

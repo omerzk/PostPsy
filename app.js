@@ -147,7 +147,7 @@ function outputFrame(res, path){
     res.sendFile(path, {}, (err)=>{
       if(err){
         logErr('SendFile', err);
-        //console.log(res)
+        console.log(req);
       }
       console.log("File sent!!")
       //remove file that was already sent

@@ -89,7 +89,7 @@ app.post('/api/process', (req, res)=>{
         console.error(`exec error: ${error}`);
         return;
       }
-      outputFrame(res, outputPath)
+      outputFrame(req, res, outputPath)
     });
     proc.stdout.setEncoding('utf8');
     proc.stderr.setEncoding('utf8');
@@ -130,7 +130,7 @@ app.post('/api/presets', (req, res)=> {
 
     process.on('close', (code) => {
       console.log(`child process exited with code ${code}`);
-      outputFrame(res, outputPath)
+      outputFrame(req, res, outputPath)
     });
     //let proc = exec('python', args.join(' '),
     //    {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
@@ -142,7 +142,7 @@ app.post('/api/presets', (req, res)=> {
 });
 
 
-function outputFrame(res, path){
+function outputFrame(req, res, path){
   console.log('output');
     res.sendFile(path, {}, (err)=>{
       if(err){

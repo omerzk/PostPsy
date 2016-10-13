@@ -131,7 +131,7 @@ app.post('/api/presets', (req, res)=> {
     process.on('close', (code) => {
       console.log(`child process exited with code ${code}`);
       outputFrame(req, res, outputPath)
-    });ס;ס;
+    });
     //let proc = exec('python', args.join(' '),
     //    {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
     //proc.stdout.setEncoding('utf8');

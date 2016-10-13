@@ -53,7 +53,7 @@ var gifProcessingPath = "./gifProcessing/";
 
 var imageSz = '400';
 var backEnd = 'cudnn';
-var numIterations = '500';
+var numIterations = '1000';
 
 var torchArgs = ['th', 'neural_style.lua',
   '-num_iterations' , numIterations,
@@ -131,7 +131,7 @@ app.post('/api/presets', (req, res)=> {
     process.on('close', (code) => {
       console.log(`child process exited with code ${code}`);
       outputFrame(req, res, outputPath)
-    });
+    });ס;ס;
     //let proc = exec('python', args.join(' '),
     //    {cwd:'/home/ubuntu/venv/bin'}, () => outputFrame(res, outputPath));
     //proc.stdout.setEncoding('utf8');
